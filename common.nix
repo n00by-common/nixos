@@ -5,7 +5,7 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-    git htop oh-my-zsh
+    git htop oh-my-zsh nix-index
     (
       with import <nixpkgs> {};
       
