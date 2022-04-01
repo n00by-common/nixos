@@ -17,6 +17,8 @@
             au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
           endif
           set backspace=indent,eol,start
+          set number
+          set ruler
           nnoremap <C-t> :tabnew<CR>
           nnoremap <C-w> :q<CR>
           nnoremap <C-o> :tabe 
