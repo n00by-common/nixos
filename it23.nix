@@ -21,6 +21,9 @@
     };
   };
 
+  # Wooo love myself some of this bs
+  services.xserver.synaptics.enable = true;
+
   system.stateVersion = "21.11";
 }
 
