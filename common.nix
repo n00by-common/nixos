@@ -20,6 +20,7 @@
           nnoremap <C-t> :tabnew<CR>
           nnoremap <C-w> :q<CR>
           nnoremap <C-o> :tabe 
+          nnoremap <C-s> :w<CR>
           nnoremap . :tabnext<CR>
           nnoremap , :tabprev<CR>
         '';
