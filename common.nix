@@ -49,6 +49,7 @@
     shellAliases = {
       ll = "ls -lha";
       gap = "git add -p";
+      gs = "git status";
       switch = "nixos-rebuild switch";
     };
     ohMyZsh = {
