@@ -32,7 +32,13 @@
   users = {
     defaultUserShell = pkgs.zsh;
     mutableUsers = false;
-    extraUsers.root.hashedPassword = "";
+    extraUsers.root = {
+      hashedPassword = "";
+      openssh.authorizedKeys.keyFiles = [
+        pubkeys/orion
+        pubkeys/it23
+      ];
+    };
   };
 
   # zsh + oh-my-zsh config
