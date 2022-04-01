@@ -51,6 +51,7 @@
       gap = "git add -p";
       gs = "git status";
       switch = "nixos-rebuild switch";
+      transfer = "/etc/nixos/transfer.sh";
     };
     ohMyZsh = {
       enable = true;
