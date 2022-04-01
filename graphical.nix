@@ -4,8 +4,16 @@
   imports = [ ];
 
   environment.systemPackages = with pkgs; [
-    firefox st dmenu
+    firefox st dmenu tdesktop sublime4 xfce.ristretto
+    evince gnome.nautilus mpv liferea yt-dlp pavucontrol
   ];
+
+  environment.sessionVariables = rec {
+    "GTK_THEME" = "Adwaita:dark";
+  };
+
+  nixpkgs.config.pulseaudio = true;
+  hardware.pulseaudio.enable = true;
 
   services.xserver = {
     enable = true;

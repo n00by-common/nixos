@@ -5,7 +5,7 @@
 
   # Packages
   environment.systemPackages = with pkgs; [
-    git htop oh-my-zsh nix-index
+    git htop oh-my-zsh nix-index most neofetch
     (
       with import <nixpkgs> {};
       
@@ -30,6 +30,8 @@
     )
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   # Make a root user with no password and zsh as default shell
   users = {
     defaultUserShell = pkgs.zsh;
@@ -52,6 +54,7 @@
       gs = "git status";
       switch = "nixos-rebuild switch";
       transfer = "/etc/nixos/transfer.sh";
+      killall = "/etc/nixos/killall.sh";
     };
     ohMyZsh = {
       enable = true;
