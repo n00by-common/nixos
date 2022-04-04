@@ -1,11 +1,26 @@
 { config, pkgs, ... }:
 
-{
-  imports = [ ];
+let
+  my_pkgs = import ./packages {};
 
+in {
   environment.systemPackages = with pkgs; [
-    firefox st dmenu tdesktop sublime4 xfce.ristretto
-    evince gnome.nautilus mpv liferea yt-dlp pavucontrol
+    discord
+    dmenu
+    evince
+    firefox
+    gnome.nautilus
+    keepassxc
+    liferea
+    mpv
+    pavucontrol
+    st
+    sublime4
+    tdesktop
+    xfce.ristretto
+    yt-dlp
+
+    my_pkgs.dwmstatus
   ];
 
   environment.sessionVariables = rec {
