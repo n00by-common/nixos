@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
     sha256 = "1wa2xps0hg3fkfjchwwj7i3216ivgrdq2j9diaqfahwcd713pp3w";
   };
 
-  nativeBuildInputs = [ zig ];
+  nativeBuildInputs = [ zig pkgs.autoPatchelfHook ];
 
   buildInputs = [ xlibs.libX11 ];
 
