@@ -6,10 +6,18 @@
       ./hardware-configuration.nix
       ./common.nix
       ./graphical.nix
+      ./syncthing.nix
     ];
+
+  time.timeZone = "Europe/Stockholm";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  services.syncthing.folders.fs = {
+    enable = true;
+    path = "/root/fs";
+  };
 
   networking = {
     useDHCP = false;
