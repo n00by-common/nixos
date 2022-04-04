@@ -2,7 +2,7 @@
 
 let
   my_pkgs = import ./packages {};
-
+  nixpkgs = import <nixpkgs> {};
 in {
   environment.systemPackages = with pkgs; [
     discord
@@ -35,9 +35,17 @@ in {
     enable = true;
     displayManager = {
       gdm.enable = true;
-      defaultSession = "none+dwm";
+      defaultSession = "none+dwmwithstatus";
     };
-    windowManager.dwm.enable = true;
+    windowManager.session =
+      [{ name = "dwmwithstatus";
+        start =
+          ''
+            ${my_pkgs.dwmstatus}/bin/dwmstatus &
+            ${my_pkgs.dwm}/bin/dwm &
+            waitPID=$!
+          '';
+      }];
   };
 }
 
