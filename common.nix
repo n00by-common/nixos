@@ -15,6 +15,7 @@ in {
     nix-index
     oh-my-zsh
     pwntools
+    ripgrep
 
     my_pkgs.killall
     my_pkgs.transfer
