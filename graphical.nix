@@ -13,14 +13,15 @@ in {
     liferea
     mpv
     pavucontrol
-    st
     sublime4
     tdesktop
     xfce.ristretto
     yt-dlp
 
     my_pkgs.dmenu
+    my_pkgs.dwm
     my_pkgs.dwmstatus
+    my_pkgs.st
   ];
 
   environment.sessionVariables = rec {
@@ -38,15 +39,5 @@ in {
     };
     windowManager.dwm.enable = true;
   };
-
-  nixpkgs.overlays = [(self: base: {
-    dwm = base.dwm.overrideAttrs(old: {
-      src = external/dwm;
-    });
-    st = base.st.overrideAttrs(old: {
-      src = external/st;
-      makeFlags = old.makeFlags ++ ["FONT=mono:pixelsize=16"];
-    });
-  })];
 }
 

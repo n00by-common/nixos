@@ -8,6 +8,11 @@ rec {
     inherit (pkgs) stdenv fetchurl;
   };
 
+  dwm = import ./dwm {
+    pkgs = pkgs;
+    inherit (pkgs) stdenv xlibs;
+  };
+
   dwmstatus = import ./dwmstatus {
     zig = zig;
     pkgs = pkgs;
@@ -17,6 +22,11 @@ rec {
   dmenu = import ./dmenu {
     pkgs = pkgs;
     inherit (pkgs) stdenv xlibs;
+  };
+
+  st = import ./st {
+    pkgs = pkgs;
+    inherit (pkgs) stdenv xlibs pkg-config ncurses;
   };
 
   vim = pkgs.vim_configurable.customize {

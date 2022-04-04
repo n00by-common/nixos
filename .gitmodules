@@ -1,6 +1,0 @@
-[submodule "external/dwm"]
-	path = external/dwm
-	url = git@github.com:n00by-common/dwm.git
-[submodule "external/st"]
-	path = external/st
-	url = git@github.com:n00by-common/st.git
