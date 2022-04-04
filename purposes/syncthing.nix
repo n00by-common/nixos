@@ -10,12 +10,8 @@
     overrideDevices = true;
 
     devices = {
-      Orion = {
-        id = "OG44L7N-BQ42XYO-WVA5FAJ-VRGU2J4-VPVJSDX-WJTFQKK-UCGMAC2-5ZMPXAC";
-      };
-      it23 = {
-        id = "GQTGIBI-LI3AUQ2-FZVSSB7-QKG64IF-SZS5RQX-D4X6FTZ-AMCUSNA-B5OBBAT";
-      };
+      Orion = { id = "OG44L7N-BQ42XYO-WVA5FAJ-VRGU2J4-VPVJSDX-WJTFQKK-UCGMAC2-5ZMPXAC"; };
+      it23  = { id = "GQTGIBI-LI3AUQ2-FZVSSB7-QKG64IF-SZS5RQX-D4X6FTZ-AMCUSNA-B5OBBAT"; };
     };
 
     overrideFolders = true;
