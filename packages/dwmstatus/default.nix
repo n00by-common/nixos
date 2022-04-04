@@ -15,7 +15,9 @@ stdenv.mkDerivation rec {
     sha256 = "1wa2xps0hg3fkfjchwwj7i3216ivgrdq2j9diaqfahwcd713pp3w";
   };
 
-  buildInputs = [ zig xlibs.libX11 ];
+  nativeBuildInputs = [ zig ];
+
+  buildInputs = [ xlibs.libX11 ];
 
   preBuild = ''
     export HOME=$TMPDIR
