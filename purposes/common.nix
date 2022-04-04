@@ -31,6 +31,7 @@ in {
       openssh.authorizedKeys.keyFiles = [
         pubkeys/orion
         pubkeys/it23
+        pubkeys/rs07
       ];
     };
   };
