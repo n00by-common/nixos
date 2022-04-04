@@ -7,6 +7,7 @@
       ./common.nix
       ./graphical.nix
       ./syncthing.nix
+      ./purposes/dev.nix
     ];
 
   time.timeZone = "Europe/Stockholm";

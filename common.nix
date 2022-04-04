@@ -8,19 +8,16 @@ in {
 
   # Packages
   environment.systemPackages = with pkgs; [
-    git
     htop
     most
     neofetch
     nix-index
     oh-my-zsh
-    pwntools
     ripgrep
 
     my_pkgs.killall
     my_pkgs.transfer
     my_pkgs.vim
-    my_pkgs.zig
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -43,8 +40,6 @@ in {
     enable = true;
     shellAliases = {
       ll = "ls -lha";
-      gap = "git add -p";
-      gs = "git status";
       switch = "nixos-rebuild switch";
     };
     ohMyZsh = {
