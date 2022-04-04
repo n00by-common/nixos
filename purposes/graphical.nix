@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  my_pkgs = import ./packages {};
+  my_pkgs = import ../packages {};
   nixpkgs = import <nixpkgs> {};
 in {
   environment.systemPackages = with pkgs; [

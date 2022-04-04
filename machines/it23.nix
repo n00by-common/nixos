@@ -4,10 +4,10 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./common.nix
-      ./graphical.nix
-      ./syncthing.nix
+      ./purposes/common.nix
       ./purposes/dev.nix
+      ./purposes/graphical.nix
+      ./purposes/syncthing.nix
     ];
 
   time.timeZone = "Europe/Stockholm";

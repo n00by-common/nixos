@@ -1,7 +1,7 @@
  { config, pkgs, ... }:
 
 let
-  my_pkgs = import ./packages {};
+  my_pkgs = import ../packages {};
 
 in {
   imports = [ ];
