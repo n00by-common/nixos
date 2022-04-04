@@ -14,6 +14,11 @@ rec {
     inherit (pkgs) stdenv xlibs;
   };
 
+  dmenu = import ./dmenu {
+    pkgs = pkgs;
+    inherit (pkgs) stdenv xlibs;
+  };
+
   vim = pkgs.vim_configurable.customize {
     name = "vim";
     vimrcConfig.customRC = ''

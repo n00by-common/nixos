@@ -4,6 +4,3 @@
 [submodule "external/st"]
 	path = external/st
 	url = git@github.com:n00by-common/st.git
-[submodule "external/dmenu"]
-	path = external/dmenu
-	url = git@github.com:n00by-common/dmenu

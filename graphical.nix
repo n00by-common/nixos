@@ -6,7 +6,6 @@ let
 in {
   environment.systemPackages = with pkgs; [
     discord
-    dmenu
     evince
     firefox
     gnome.nautilus
@@ -20,6 +19,7 @@ in {
     xfce.ristretto
     yt-dlp
 
+    my_pkgs.dmenu
     my_pkgs.dwmstatus
   ];
 
@@ -42,9 +42,6 @@ in {
   nixpkgs.overlays = [(self: base: {
     dwm = base.dwm.overrideAttrs(old: {
       src = external/dwm;
-    });
-    dmenu = base.dmenu.overrideAttrs(old: {
-      src = external/dmenu;
     });
     st = base.st.overrideAttrs(old: {
       src = external/st;
