@@ -1,33 +1,25 @@
  { config, pkgs, ... }:
 
-{
+let
+  my_pkgs = import ./packages {};
+
+in {
   imports = [ ];
 
   # Packages
   environment.systemPackages = with pkgs; [
-    git htop oh-my-zsh nix-index most neofetch
-    (
-      with import <nixpkgs> {};
-      
-      vim_configurable.customize {
-        name = "vim";
-        vimrcConfig.customRC = ''
-          syntax enable
-          if has("autocmd")
-            au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-          endif
-          set backspace=indent,eol,start
-          set number
-          set ruler
-          nnoremap <C-t> :tabnew<CR>
-          nnoremap <C-w> :q<CR>
-          nnoremap <C-o> :tabe 
-          nnoremap <C-s> :w<CR>
-          nnoremap . :tabnext<CR>
-          nnoremap , :tabprev<CR>
-        '';
-      }
-    )
+    git
+    htop
+    most
+    neofetch
+    nix-index
+    oh-my-zsh
+    pwntools
+
+    my_pkgs.killall
+    my_pkgs.transfer
+    my_pkgs.vim
+    my_pkgs.zig
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -53,8 +45,6 @@
       gap = "git add -p";
       gs = "git status";
       switch = "nixos-rebuild switch";
-      transfer = "/etc/nixos/transfer.sh";
-      killall = "/etc/nixos/killall.sh";
     };
     ohMyZsh = {
       enable = true;
