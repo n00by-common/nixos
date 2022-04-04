@@ -11,8 +11,8 @@ stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "n00by-common";
     repo = "dwmstatus";
-    rev = "5322eaf11c1c121f4e6af99aa9410eaa16bfec96";
-    sha256 = "1wa2xps0hg3fkfjchwwj7i3216ivgrdq2j9diaqfahwcd713pp3w";
+    rev = "f7243df41c31b702e7e7234a8656be26b566caff";
+    sha256 = "1g1j76jp9v90jlky2vw28ixpilb7a2x77gfiv8xr6j10v6bhnhjk";
   };
 
   nativeBuildInputs = [ zig pkgs.autoPatchelfHook ];
