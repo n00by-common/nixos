@@ -10,11 +10,11 @@ stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "n00by-common";
     repo = "dwm";
-    rev = "8fd5f9553209014db7cad7d8fb9ed57ed4a82016";
-    sha256 = "0ky0ghzzcwl44nmam03cpkx7id45z98y05njl7yxkgyz3bxffqgz";
+    rev = "5e58eea46921c434cac22b14020172249b12bb73";
+    sha256 = "1k62i15fbkh9czca6673fx06717q7jqpjxmzlvnb1q6gkad25spi";
   };
 
-  makeFlags = [ "PREFIX=$(out)" ];
+  makeFlags = [ "PREFIX=$(out)" "FONTSIZE=10" ];
 
   buildInputs = [ xlibs.libX11 xlibs.libXft xlibs.libXinerama ];
 }
