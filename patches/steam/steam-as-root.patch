@@ -1,0 +1,5 @@
+--- a/bin_steam.sh
++++ b/bin_steam.sh
+@@ -164,1 +164,1 @@
+-if [ "$(id -u)" == "0" ]; then
++if [ "$(id -a)" == "0" ]; then

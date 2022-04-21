@@ -1,6 +1,8 @@
 { stdenv
 , xlibs
 , pkgs
+, st
+, font_size
 }:
 stdenv.mkDerivation rec {
   name = "dwm";
@@ -10,11 +12,11 @@ stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "n00by-common";
     repo = "dwm";
-    rev = "5e58eea46921c434cac22b14020172249b12bb73";
-    sha256 = "1k62i15fbkh9czca6673fx06717q7jqpjxmzlvnb1q6gkad25spi";
+    rev = "bc3440c017cc79fbb2b9a1c7ffadf24465eea9f1";
+    sha256 = "0wrh8rb9j19z6frb1rf6vk5qj776xk1kqa4yh354vqnp6xq50liq";
   };
 
-  makeFlags = [ "PREFIX=$(out)" "FONTSIZE=10" ];
+  makeFlags = [ "PREFIX=$(out)" "FONTSIZE=${toString font_size}" "ST=${st}/bin/st" ];
 
   buildInputs = [ xlibs.libX11 xlibs.libXft xlibs.libXinerama ];
 }

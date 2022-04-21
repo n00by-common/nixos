@@ -1,24 +1,38 @@
 { config, pkgs, ... }:
-
 {
-  imports =
-    [
-      ../hardware-configuration.nix
-      ../purposes/common.nix
-      ../purposes/dev.nix
-      ../purposes/graphical.nix
-      ../purposes/syncthing.nix
-    ];
+  imports = [ ../modules ../hardware-configuration.nix ];
+
+  my_cfg = {
+    dev.enable = true;
+    work.enable = true;
+    sync-fs.enable = true;
+
+    graphical = {
+      enable = true;
+      wm_font_size = 20;
+      terminal_font_size = 32;
+    };
+
+    battery_path = "/sys/class/power_supply/BAT0";
+
+    ida = import ../secret/ida.nix {inherit pkgs;};
+  };
+
+  # Display switching
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "laptop" ''
+      xrandr --output eDP-1 --mode 1920x1200 --output DP-1-1 --off --output DP-1-2 --off
+    '')
+
+    (pkgs.writeShellScriptBin "work-dock" ''
+      xrandr --output eDP-1 --off --output DP-1-1 --mode 1920x1080 --left-of DP-1-2 --output DP-1-2 --mode 1920x1080
+    '')
+  ];
 
   time.timeZone = "Europe/Stockholm";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  services.syncthing.folders.fs = {
-    enable = true;
-    path = "/root/fs";
-  };
 
   i18n.defaultLocale = "C.UTF-8";
   console = {
@@ -28,12 +42,8 @@
   services.xserver.layout = "se";
 
   networking = {
-    useDHCP = false;
     networkmanager.enable = true;
     hostName = "rs07-nixos";
-    interfaces = {
-      wlp0s20f3.useDHCP = true;
-    };
   };
 
   # Wooo love myself some of this bs

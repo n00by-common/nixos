@@ -1,0 +1,45 @@
+{ config, pkgs, ... }:
+
+{
+  imports = [ ../purposes/common.nix ../hardware-configuration.nix ];
+
+  my_cfg = {
+    dev.enable = true;
+    sync-fs.enable = true;
+
+    graphical = {
+      enable = true;
+      wm_font_size = 12;
+      terminal_font_size = 20;
+    };
+
+    battery_path = "/sys/class/power_supply/BAT0";
+  };
+
+  time.timeZone = "Europe/Stockholm";
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking = {
+    networkmanager.enable = true;
+    hostName = "it23-nixos";
+    interfaces = {
+      eno1.useDHCP = true;
+      wlp2s0.useDHCP = true;
+    };
+  };
+
+  #i18n.defaultLocale = "C.UTF-8";
+  #console = {
+  #  font = "Lat2-Terminus16";
+  #  keyMap = "sv-latin1";
+  #};
+  #services.xserver.layout = "se";
+
+  # Wooo love myself some of this bs
+  services.xserver.synaptics.enable = true;
+
+  system.stateVersion = "21.11";
+}
+

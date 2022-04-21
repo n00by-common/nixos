@@ -1,0 +1,39 @@
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    ../hardware-configuration.nix
+    ../purposes/common.nix
+    ../purposes/remotely-accessible.nix
+  ];
+
+  time.timeZone = "Europe/Stockholm";
+
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.device = "/dev/sda";
+
+  networking = {
+    hostName = "steady-nixos";
+    useDHCP = false;
+    interfaces = {
+      eth0 = {
+        useDHCP = false;
+        ipv4.addresses = [{ address = "192.168.1.69"; prefixLength = 24; }];
+      };
+    };
+    defaultGateway = "192.168.1.1";
+    nameservers = ["192.168.1.1"];
+  };
+
+  i18n.defaultLocale = "C.UTF-8";
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "sv-latin1";
+  };
+
+  services.xserver.layout = "se";
+
+  system.stateVersion = "21.11";
+}
+

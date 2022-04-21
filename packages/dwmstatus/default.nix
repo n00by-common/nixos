@@ -2,7 +2,13 @@
 , zig
 , xlibs
 , pkgs
+, battery_path
+, time_format
+, time_zone
 }:
+let
+  formatArg = var: prefix: if var != null then prefix + var else "";
+in
 stdenv.mkDerivation rec {
   name = "dwmstatus";
 
@@ -11,8 +17,8 @@ stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "n00by-common";
     repo = "dwmstatus";
-    rev = "f7243df41c31b702e7e7234a8656be26b566caff";
-    sha256 = "1g1j76jp9v90jlky2vw28ixpilb7a2x77gfiv8xr6j10v6bhnhjk";
+    rev = "a84fad9acce44171508e92a84b70cf7fd6edfbb8";
+    sha256 = "16hc1nacigqk56dybfh7vzhf7s9yyi3ffyxddzy7g0g9m9573g10";
   };
 
   nativeBuildInputs = [ zig pkgs.autoPatchelfHook ];
@@ -25,7 +31,10 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     runHook preInstall
-    zig build --prefix $out install
+    zig build --prefix $out install\
+      ${formatArg battery_path "-Dbattery_path="} \
+      ${formatArg time_format "-Dtime_format="} \
+      ${formatArg time_zone "-Dtime_zone="}
     runHook postInstall
   '';
 }

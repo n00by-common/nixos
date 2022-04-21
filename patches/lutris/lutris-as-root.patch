@@ -1,0 +1,6 @@
+--- a/lutris/gui/application.py
++++ b/lutris/gui/application.py
+@@ -80,2 +80,2 @@
+         if os.geteuid() == 0:
+-            ErrorDialog(_("Running Lutris as root is not recommended and may cause unexpected issues"))
++            pass

@@ -3,6 +3,7 @@
 , pkgs
 , pkg-config
 , ncurses
+, font_size
 }:
 stdenv.mkDerivation rec {
   name = "st";
@@ -22,7 +23,7 @@ stdenv.mkDerivation rec {
 
   makeFlags = [
     "PREFIX=$(out)"
-    "FONT=mono:pixelsize=16"
+    "FONT=mono:pixelsize=${toString font_size}"
   ];
 
   nativeBuildInputs = [
@@ -30,5 +31,5 @@ stdenv.mkDerivation rec {
     ncurses
   ];
 
-  buildInputs = [ xlibs.libX11 xlibs.libXft ];# xlibs.libXinerama  ];
+  buildInputs = [ xlibs.libX11 xlibs.libXft ];
 }
