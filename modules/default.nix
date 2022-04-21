@@ -105,10 +105,6 @@ in
       my_pkgs.vim
 
       my_pkgs.nix-locate
-
-      my_pkgs.ida
-      my_pkgs.ida64
-      my_pkgs.idapyswitch
     ];
 
     nixpkgs.config.allowUnfree = true;

@@ -23,6 +23,9 @@
 
       # for organizing lunch
       my_pkgs.teams
+
+      my_pkgs.ida
+      my_pkgs.ida64
     ];
 
     virtualisation.virtualbox.host.enable = true;
