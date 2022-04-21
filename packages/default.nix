@@ -24,6 +24,20 @@ rec {
     inherit (pkgs) stdenv xlibs;
   };
 
+  ida_env = import ./ida {
+    inherit pkgs;
+    inherit (config.my_cfg.ida) installer password;
+    inherit (pkgs) stdenv;
+  };
+
+  ida = pkgs.writeShellScriptBin "ida" ''
+    exec ${ida_env}/bin/ida ${ida_env}/opt/idapro/ida "$@"
+  '';
+
+  ida64 = pkgs.writeShellScriptBin "ida64" ''
+    exec ${ida_env}/bin/ida ${ida_env}/opt/idapro/ida64 "$@"
+  '';
+
   st = import ./st {
     pkgs = pkgs;
     inherit (pkgs) stdenv xlibs pkg-config ncurses;
