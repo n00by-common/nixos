@@ -23,6 +23,7 @@
       config = {
         init.defaultBranch = "master";
         http.cookieFile = "~/git_cookies.txt";
+        core.editor = "${pkgs.vim}/bin/vim";
         user = {
           name = "Hannes Bredberg";
           email = "hannesbredberg@gmail.com";
