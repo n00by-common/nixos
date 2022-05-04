@@ -28,13 +28,24 @@
       "GTK_THEME" = "Adwaita:dark";
     };
 
-    services.pipewire = {
+    #services.pipewire = {
+    #  enable = true;
+    #  alsa.enable = true;
+    #  alsa.support32Bit = true;
+    #  pulse.enable = true;
+    #  jack.enable = true;
+    #};
+
+    hardware.pulseaudio = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
+      systemWide = true;
+      # Required for spotifyd
+      extraConfig = ''
+        unload-module module-native-protocol-unix
+        load-module module-native-protocol-unix auth-anonymous=1
+      '';
     };
+    nixpkgs.config.pulseaudio = true;
 
     systemd.user.services.redshift = {
       description = "Redshift colour temperature adjuster";
@@ -42,6 +53,21 @@
       partOf = [ "graphical-session.target" ];
       serviceConfig = {
         ExecStart = "${pkgs.redshift}/bin/redshift -O 4000";
+      };
+    };
+
+    services.spotifyd = {
+      enable = true;
+      settings.global = let
+        secret = import ../secret/spotify.nix;
+      in {
+        username = secret.username;
+        password = secret.password;
+        backend = "pulseaudio";
+        bitrate = 320;
+
+        device_name = "${config.networking.hostName}";
+        device_type = "computer";
       };
     };
 
