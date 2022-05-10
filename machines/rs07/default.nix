@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  imports = [ ../modules ../hardware-configuration.nix ];
+  imports = [ ../../modules ./hardware-configuration.nix ];
 
   my_cfg = {
     dev.enable = true;
@@ -15,7 +15,7 @@
 
     battery_path = "/sys/class/power_supply/BAT0";
 
-    ida = import ../secret/ida.nix {inherit pkgs;};
+    ida = import ../../secret/ida.nix {inherit pkgs;};
   };
 
   # Display switching
