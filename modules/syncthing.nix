@@ -54,6 +54,7 @@ in {
         gui = { theme = "black"; };
         crashReportingEnabled = "false";
         urAccepted = "-1"; # Disable usage reporting
+        urSeen = "3"; # No, don't ask me
       };
     };
   };
