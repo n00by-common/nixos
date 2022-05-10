@@ -1,4 +1,2 @@
-/secret/*.nix
-/configuration.nix
-/hardware-configuration.nix
+secret/*.nix
 *.swp

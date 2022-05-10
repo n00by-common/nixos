@@ -128,7 +128,7 @@ in
       enable = true;
       shellAliases = {
         ll = "ls -lha";
-        switch = "nixos-rebuild switch";
+        switch = "NIXOS_CONFIG=/etc/nixos/machines/${config.networking.hostName} nixos-rebuild switch";
       };
       ohMyZsh = {
         enable = true;
