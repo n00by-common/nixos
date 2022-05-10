@@ -137,7 +137,10 @@ in
 
       my_pkgs.nix-index
       my_pkgs.nix-locate
-    ];
+    ]
+    ++ (if config.my_cfg.ida.enable then [my_pkgs.ida my_pkgs.ida64] else [])
+    ++ (if config.my_cfg.pida.enable then [my_pkgs.pida my_pkgs.pida64] else [])
+    ;
 
     nixpkgs.config.allowUnfree = true;
 
