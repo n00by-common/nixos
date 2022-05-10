@@ -26,6 +26,11 @@
       (pkgs.writeShellScriptBin "scrot" ''
         ${pkgs.scrot}/bin/scrot -se 'mkdir -p ~/screenshots && mv $f ~/screenshots/' "$@"
       '')
+
+      (pkgs.writeShellScriptBin "yt-launch" ''
+        echo "$@" > /root/yt_log
+        mpv "$@" >> /root/yt_log
+      '')
     ];
 
     environment.sessionVariables = rec {
