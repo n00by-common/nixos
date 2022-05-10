@@ -25,6 +25,7 @@ let
     pkgs.glib
     pkgs.fontconfig
     pkgs.freetype
+    pkgs.curl
 
     stdenv.cc.cc.lib
   ];
