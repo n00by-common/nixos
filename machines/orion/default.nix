@@ -29,6 +29,9 @@ in {
       wm_font_size = 10;
       terminal_font_size = 32;
     };
+
+    ida = import ../../secret/ida.nix {inherit pkgs;};
+    pida = import ../../secret/pida.nix {inherit pkgs;};
   };
 
   boot.loader.systemd-boot.enable = true;
