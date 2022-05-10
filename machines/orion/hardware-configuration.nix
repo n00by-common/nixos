@@ -28,6 +28,11 @@
       fsType = "zfs";
     };
 
+  fileSystems."/arch" =
+    { device = "/dev/disk/by-uuid/1151c224-4918-4123-9808-c1b9decf77d0";
+      fsType = "ext4";
+    };
+
   swapDevices = [ ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
