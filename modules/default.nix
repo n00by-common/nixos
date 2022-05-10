@@ -112,6 +112,11 @@ in
       my_pkgs = my_pkgs;
     };
 
+    security.acme = {
+      email = "hannesbredberg@gmail.com";
+      acceptTerms = true;
+    };
+
     # Packages
     environment.systemPackages = [
       pkgs.binutils
