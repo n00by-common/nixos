@@ -5,7 +5,7 @@
   my_cfg = {
     dev.enable = true;
     work.enable = true;
-    sync-fs.enable = true;
+    syncthing.enable = true;
 
     graphical = {
       enable = true;
@@ -21,11 +21,15 @@
   # Display switching
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "laptop" ''
-      xrandr --output eDP-1 --mode 1920x1200 --output DP-1-1 --off --output DP-1-2 --off
+      xrandr --output eDP-1 --mode 3840x2160 --output DP-1-1 --off --output DP-1-2 --off
     '')
 
     (pkgs.writeShellScriptBin "work-dock" ''
       xrandr --output eDP-1 --off --output DP-1-1 --mode 1920x1080 --left-of DP-1-2 --output DP-1-2 --mode 1920x1080
+    '')
+
+    (pkgs.writeShellScriptBin "tv" ''
+      xrandr --output eDP-1 --mode 3840x2160 --output DP-3 --mode 3840x2160 --same-as eDP-1
     '')
   ];
 
@@ -43,7 +47,7 @@
 
   networking = {
     networkmanager.enable = true;
-    hostName = "rs07-nixos";
+    hostName = "rs07";
   };
 
   # Wooo love myself some of this bs
