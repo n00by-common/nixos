@@ -10,16 +10,18 @@ let
 
   } // my_devices;
 in {
-  options.my_cfg.sync-fs = {
-    enable = lib.mkEnableOption "Sync the fs dir on this computer";
-    path = lib.mkOption {
-      type = lib.types.str;
-      default = "/root/fs";
-      description = "Path for the fs sync directory";
+  options.my_cfg = {
+    syncthing = {
+      enable = lib.mkEnableOption "Sync-things on this computer";
+      fs-path = lib.mkOption {
+        type = lib.types.str;
+        default = "/root/fs";
+        description = "Path for the fs sync directory";
+      };
     };
   };
 
-  config = lib.mkIf config.my_cfg.sync-fs.enable {
+  config = lib.mkIf config.my_cfg.syncthing.enable {
     services.syncthing = {
       enable = true;
 
@@ -30,12 +32,20 @@ in {
 
       devices = all_devices;
 
-      overrideFolders = false;
+      overrideFolders = true;
 
       folders = {
         fs = {
+          enable = true;
           id = "vksaj-avrho";
-          path = config.my_cfg.sync-fs.path;
+          path = config.my_cfg.syncthing.fs-path;
+          devices = builtins.attrNames my_devices;
+        };
+
+        nixos-hanus = {
+          enable = true;
+          id = "nixos-hanus";
+          path = "/etc/nixos";
           devices = builtins.attrNames my_devices;
         };
       };
