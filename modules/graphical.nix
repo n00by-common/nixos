@@ -15,13 +15,17 @@
       pkgs.liferea
       pkgs.mpv
       pkgs.pavucontrol
-      pkgs.sublime4
       pkgs.tdesktop
       pkgs.xfce.ristretto
       pkgs.yt-dlp
 
       my_pkgs.discord
       my_pkgs.dmenu
+      my_pkgs.sublime
+
+      (pkgs.writeShellScriptBin "scrot" ''
+        ${pkgs.scrot}/bin/scrot -se 'mkdir -p ~/screenshots && mv $f ~/screenshots/' "$@"
+      '')
     ];
 
     environment.sessionVariables = rec {

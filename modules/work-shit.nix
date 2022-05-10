@@ -6,13 +6,6 @@
     # We need to be graphical for some of these
     my_cfg.graphical.enable = true;
 
-    #nixpkgs.overlays = [ (self: old: {
-    #  teams = old.teams.override {
-    #     commandLineArgs = "--no-sandbox";
-    #   };
-    #  })
-    #];
-
     # Packages
     environment.systemPackages = [
       # for thunderbolt dock

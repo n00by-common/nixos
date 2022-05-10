@@ -11,6 +11,17 @@ in rec {
     inherit (pkgs) stdenv fetchurl;
   };
 
+  zig-master = (pkgs.zig.override({
+    llvmPackages = pkgs.llvmPackages_13;
+  })).overrideAttrs(old: {
+    src = pkgs.fetchFromGitHub {
+      owner = "ziglang";
+      repo = "zig";
+      rev = "ea3f5905f0635d0c0cb3983ba5ca6c92859e9d81";
+      sha256 = "0xhrm96mrpkmzr7zg8cb14l2xaicq48mnqc2f4akmzz0zn7ssrjh";
+    };
+  });
+
   dwm = import ./dwm {
     inherit pkgs st;
     inherit (pkgs) stdenv xlibs;
@@ -44,11 +55,32 @@ in rec {
     exec ${ida_env}/bin/ida ${ida_env}/opt/idapro/ida64 "$@"
   '';
 
+  pida_env = import ./ida {
+    inherit pkgs;
+    inherit (config.my_cfg.pida) installer password;
+    inherit (pkgs) stdenv;
+  };
+
+  pida = pkgs.writeShellScriptBin "pida" ''
+    exec ${pida_env}/bin/ida ${pida_env}/opt/idapro/ida "$@"
+  '';
+
+  pida64 = pkgs.writeShellScriptBin "pida64" ''
+    exec ${pida_env}/bin/ida ${pida_env}/opt/idapro/ida64 "$@"
+  '';
+
   st = import ./st {
     inherit pkgs;
     inherit (pkgs) stdenv xlibs pkg-config ncurses;
     font_size = config.my_cfg.graphical.terminal_font_size;
   };
+
+  #sublime = import ./sublime {
+  #  inherit pkgs;
+  #  subl = pkgs.sublime4;
+  #};
+
+  sublime = pkgs.sublime4;
 
   # Lutris gives a dismissable error box on startup when running as root, get rid of it
   lutris = (pkgs.lutris.override {
@@ -84,8 +116,45 @@ in rec {
     ${pkgs.nix-index}/bin/nix-locate "$@" | ${pkgs.most}/bin/most
   '';
 
+  nix-index = pkgs.writeShellScriptBin "nix-index" ''
+    ${pkgs.nix-index}/bin/nix-index "$@"
+  '';
+
   killall = pkgs.writeShellScriptBin "killall" ''
     kill -9 `pidof "$@"`
+  '';
+
+  https-to-ssh = pkgs.writeShellScriptBin "https-to-ssh" ''
+    REPO_URL=`git remote -v | grep -m1 '^origin' | sed -Ene's#.*(https://[^[:space:]]*).*#\1#p'`
+    if [ -z "$REPO_URL" ]; then
+      echo "-- ERROR:  Could not identify Repo url."
+      echo "   It is possible this repo is already using SSH instead of HTTPS."
+      exit
+    fi
+
+    USER=`echo $REPO_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\1#p'`
+    if [ -z "$USER" ]; then
+      echo "-- ERROR:  Could not identify User."
+      exit
+    fi
+
+    REPO=`echo $REPO_URL | sed -Ene's#https://github.com/([^/]*)/(.*).git#\2#p'`
+    if [ -z "$REPO" ]; then
+      echo "-- ERROR:  Could not identify Repo."
+      exit
+    fi
+
+    NEW_URL="git@github.com:$USER/$REPO.git"
+    echo "Changing repo url from "
+    echo "  '$REPO_URL'"
+    echo "      to "
+    echo "  '$NEW_URL'"
+    echo ""
+
+    CHANGE_CMD="git remote set-url origin $NEW_URL"
+    `$CHANGE_CMD`
+
+    echo "Success"
   '';
 
   transfer = pkgs.writeShellScriptBin "transfer" ''

@@ -60,7 +60,31 @@ in
       ];
     };
 
-    ida = {
+    ida =
+      let
+        secret = import ../secret/ida.nix {inherit pkgs;};
+      in {
+      enable = lib.mkEnableOption "Ida Pro";
+
+      installer = lib.mkOption {
+        description = "Installer file";
+        default = secret.installer;
+
+        type = lib.types.path;
+
+        visible = true;
+      };
+
+      password = lib.mkOption {
+        description = "Installer password";
+        default = secret.password;
+
+        type = lib.types.str;
+        visible = true;
+      };
+    };
+
+    pida = {
       enable = lib.mkEnableOption "Ida Pro";
 
       installer = lib.mkOption {
@@ -95,15 +119,18 @@ in
       pkgs.most
       pkgs.neofetch
       pkgs.oh-my-zsh
+      pkgs.p7zip
       pkgs.ripgrep
       pkgs.unzip
       pkgs.wget
       pkgs.xxd
 
+      my_pkgs.https-to-ssh
       my_pkgs.killall
       my_pkgs.transfer
       my_pkgs.vim
 
+      my_pkgs.nix-index
       my_pkgs.nix-locate
     ];
 

@@ -8,14 +8,20 @@
     # Packages
     environment.systemPackages = [
       pkgs.clang
+      pkgs.gdb
       pkgs.gnumake
       pkgs.man-pages
       pkgs.man-pages-posix
       pkgs.pwntools
       pkgs.qemu_full
       pkgs.xorriso
+      pkgs.sublime-merge
 
       my_pkgs.zig
+
+      (pkgs.writeShellScriptBin "zig-master" ''
+        ${my_pkgs.zig-master}/bin/zig "$@"
+      '')
     ];
 
     programs.git = {
