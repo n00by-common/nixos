@@ -14,27 +14,21 @@
   #boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f1270ac5-c020-4aa4-9523-9d458a719119";
+    { device = "/dev/disk/by-uuid/886507de-59c6-47d8-8801-00dd0dcab81b";
       fsType = "xfs";
     };
 
-  #fileSystems."/boot" =
-  #  { device = "/dev/disk/by-uuid/9351-57F5";
-  #    fsType = "fat32";
-  #  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/2B1C-CAA6";
+      fsType = "vfat";
+    };
 
-  #fileSystems."/boot" =
-  #  { device = "/dev/disk/by-uuid/258b3b60-286b-4b4e-be7b-c4067a5841c4";
-  #    fsType = "ext2";
-  #  };
-
-  #fileSystems."/zpool" =
-  #  { device = "zpool";
-  #    fsType = "zfs";
-  #  };
+  fileSystems."/zpool" =
+    { device = "zpool";
+      fsType = "zfs";
+    };
 
   swapDevices = [ ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  # high-resolution display
 }

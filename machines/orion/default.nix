@@ -4,7 +4,14 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  display-setup = ''
+    LEFT='DP-0'
+    CENTER='DP-2'
+    RIGHT='HDMI-0'
+    ${pkgs.xorg.xrandr}/bin/xrandr --output $CENTER --primary --output $LEFT --left-of $CENTER --output $RIGHT --right-of $CENTER
+  '';
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -23,9 +30,18 @@
     };
   };
 
-  boot.loader.grub.device = "/dev/md126";
-  #boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.firewall.allowedTCPPorts = [80 443];
+  services.nginx = {
+    enable = true;
+    virtualHosts."gurrasnurra.se" = {
+      enableACME = true;
+      forceSSL = true;
+      root = "/zpool/gurrasnurra/public_html";
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -49,5 +65,8 @@
   hardware.video.hidpi.enable = true;
 
   system.stateVersion = "21.11";
+
+  services.xserver.displayManager.setupCommands = display-setup;
+  services.xserver.displayManager.sessionCommands = display-setup;
 }
 
