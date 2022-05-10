@@ -22,6 +22,7 @@ in {
     dev.enable = true;
     syncthing.enable = true;
     remotely-accessible.enable = true;
+    gamering.enable = true;
 
     graphical = {
       enable = true;
