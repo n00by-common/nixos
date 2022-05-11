@@ -7,7 +7,9 @@
   config = lib.mkIf config.my_cfg.gamering.enable {
     environment.systemPackages = [
       # TODO: Dark mode by default
-      pkgs.multimc
+      (pkgs.multimc.override {
+        msaClientID = import ../secret/multimc-client-secret.nix;
+      })
 
       my_pkgs.lutris
     ];
