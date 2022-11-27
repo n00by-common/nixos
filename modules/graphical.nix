@@ -15,6 +15,7 @@
       pkgs.liferea
       pkgs.mpv
       pkgs.pavucontrol
+      pkgs.spotify-qt
       pkgs.tdesktop
       pkgs.xfce.ristretto
       pkgs.yt-dlp
@@ -22,6 +23,10 @@
       my_pkgs.discord
       my_pkgs.dmenu
       my_pkgs.sublime
+
+      (pkgs.writeShellScriptBin "grab" ''
+        ${pkgs.xfce.xfce4-screenshooter}/bin/xfce4-screenshooter -r -s ~/screenshots/$(date '+%F-%X').png
+      '')
 
       (pkgs.writeShellScriptBin "scrot" ''
         ${pkgs.scrot}/bin/scrot -se 'mkdir -p ~/screenshots && mv $f ~/screenshots/' "$@"
@@ -63,6 +68,10 @@
       serviceConfig = {
         ExecStart = "${pkgs.redshift}/bin/redshift -O 4000";
       };
+    };
+
+    networking.hosts = {
+      "0.0.0.0" = ["apresolve.spotify.com"];
     };
 
     services.spotifyd = {

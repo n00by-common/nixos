@@ -1,5 +1,5 @@
 { stdenv
-, xlibs
+, xorg
 , pkgs
 }:
 stdenv.mkDerivation rec {
@@ -16,5 +16,5 @@ stdenv.mkDerivation rec {
 
   makeFlags = [ "PREFIX=$(out)" ];
 
-  buildInputs = [ xlibs.libX11 xlibs.libXinerama xlibs.libXft ];
+  buildInputs = [ xorg.libX11 xorg.libXinerama xorg.libXft ];
 }

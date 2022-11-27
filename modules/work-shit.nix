@@ -14,11 +14,20 @@
       # for locking computer from colleagues
       pkgs.slock
 
+      pkgs.sqlitebrowser
+
       # for organizing lunch
       my_pkgs.teams
 
       my_pkgs.ida
       my_pkgs.ida64
+      my_pkgs.pida
+      my_pkgs.pida64
+      (pkgs.writeShellScriptBin "ghidra" ''
+        AWT_TOOLKIT=MToolkit ${pkgs.ghidra-bin}/bin/ghidra
+      '')
+      pkgs.cutter
+      pkgs.radare2
     ];
 
     virtualisation.virtualbox.host.enable = true;

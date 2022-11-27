@@ -1,5 +1,5 @@
 { stdenv
-, xlibs
+, xorg
 , pkgs
 , pkg-config
 , ncurses
@@ -31,5 +31,5 @@ stdenv.mkDerivation rec {
     ncurses
   ];
 
-  buildInputs = [ xlibs.libX11 xlibs.libXft ];
+  buildInputs = [ xorg.libX11 xorg.libXft ];
 }

@@ -107,14 +107,17 @@ in
   };
 
   config = {
+    boot.kernel.sysctl = {
+      "kernel.pid_max" = 4096;
+    };
     # Args passed to all modules
     _module.args = {
       my_pkgs = my_pkgs;
     };
 
     security.acme = {
-      email = "hannesbredberg@gmail.com";
       acceptTerms = true;
+      defaults.email = "hannesbredberg@gmail.com";
     };
 
     # Packages
@@ -134,6 +137,7 @@ in
       my_pkgs.killall
       my_pkgs.transfer
       my_pkgs.vim
+      my_pkgs.git-pretty-log
 
       my_pkgs.nix-index
       my_pkgs.nix-locate
@@ -147,13 +151,14 @@ in
     # Make a root user with no password and zsh as default shell
     users = {
       defaultUserShell = pkgs.zsh;
-      mutableUsers = false;
+      mutableUsers = true;
       extraUsers.root = {
         hashedPassword = "";
         openssh.authorizedKeys.keyFiles = [
           ../pubkeys/orion
           ../pubkeys/it23
           ../pubkeys/rs07
+          ../pubkeys/it34
         ];
       };
     };

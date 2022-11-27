@@ -53,7 +53,7 @@ in stdenv.mkDerivation rec {
     chmod +x $out/ida.run
 
     echo "Installing ida into" $out/opt/idapro
-    $out/ida.run --prefix $out/opt/idapro --installpassword ${password} --mode unattended
+    $out/ida.run --prefix $out/opt/idapro --installpassword ${password} --mode unattended --python_version 3
     rm $out/ida.run
 
     echo "Setting up fhsenv runner"

@@ -1,6 +1,6 @@
 { stdenv
 , zig
-, xlibs
+, xorg
 , pkgs
 , battery_path
 , time_format
@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ zig pkgs.autoPatchelfHook ];
 
-  buildInputs = [ xlibs.libX11 ];
+  buildInputs = [ xorg.libX11 ];
 
   preBuild = ''
     export HOME=$TMPDIR

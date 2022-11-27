@@ -1,5 +1,5 @@
 { stdenv
-, xlibs
+, xorg
 , pkgs
 , st
 , font_size
@@ -18,5 +18,5 @@ stdenv.mkDerivation rec {
 
   makeFlags = [ "PREFIX=$(out)" "FONTSIZE=${toString font_size}" "ST=${st}/bin/st" ];
 
-  buildInputs = [ xlibs.libX11 xlibs.libXft xlibs.libXinerama ];
+  buildInputs = [ xorg.libX11 xorg.libXft xorg.libXinerama ];
 }

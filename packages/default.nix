@@ -7,30 +7,128 @@ let
     then (pkgs.writeShellScriptBin command_name "${package}/bin/${command_name} --no-sandbox")
     else package;
 in rec {
-  zig = import ./zig {
+  albion_env = import ./albion {
+    inherit pkgs;
     inherit (pkgs) stdenv fetchurl;
   };
 
-  zig-master = (pkgs.zig.override({
-    llvmPackages = pkgs.llvmPackages_13;
-  })).overrideAttrs(old: {
-    src = pkgs.fetchFromGitHub {
-      owner = "ziglang";
-      repo = "zig";
-      rev = "ea3f5905f0635d0c0cb3983ba5ca6c92859e9d81";
-      sha256 = "0xhrm96mrpkmzr7zg8cb14l2xaicq48mnqc2f4akmzz0zn7ssrjh";
+  albion = pkgs.writeShellScriptBin "albion" ''
+    cp -r ${albion_env}/albion $HOME/albion
+    export LD_LIBRARY_PATH=$HOME/albion/data/launcher
+    export QT_QPA_PLATFORM_PLUGIN_PATH=$HOME/albion/data/launcher/plugins/platforms
+    export QT_PLUGIN_PATH=$HOME/albion/data/launcher/plugins
+    exec ${albion_env}/bin/albion $HOME/albion/data/Albion-Online "$@"
+  '';
+
+  zig = import ./zig {
+    inherit pkgs;
+    inherit (pkgs) stdenv fetchurl;
+  };
+
+  # zig = (pkgs.zig.override({
+  #   llvmPackages = pkgs.llvmPackages_13;
+  # })).overrideAttrs(old: {
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "ziglang";
+  #     repo = "zig";
+  #     rev = "c0ae9647f9656ea47c49ffd64443b7da73aeffc7";
+  #     sha256 = "1w8jnf1ayhv2mlbnkdiy84jvjhq3w49d4j2bwghi86rxi9z5g69r";
+  #   };
+  # });
+
+  #zig-master = (pkgs.zig.override({
+  #  llvmPackages = pkgs.llvmPackages_13;
+  #})).overrideAttrs(old: {
+  #  src = pkgs.fetchFromGitHub {
+  #    owner = "ziglang";
+  #    repo = "zig";
+  #    rev = "ee651c3cd358f40f60db0bbcd82ffde99aed9b88";
+  #    sha256 = "14hdwmy41804v28xm1clb8zjdf66wsdc5003cfyryll0qqqnqq5f";
+  #  };
+  #});
+
+  zig-master = (pkgs.stdenv.mkDerivation rec{
+    name = "zig-${version}";
+    version = "0.10.0-dev.4541+e67c756b9";
+    src = pkgs.fetchurl {
+      url = "https://ziglang.org/builds/zig-linux-x86_64-${version}.tar.xz";
+      sha256 = "sha256-iup07iICHYAg2bYXtbvzwZsa3ZrNjvIIubXWYuf4jkE=";
     };
+    sourceRoot = "./zig-linux-x86_64-${version}/";
+    installPhase = ''
+      mkdir -p $out/bin
+      cp zig $out/bin/zig
+      cp -r lib $out/lib
+    '';
   });
+
+  # zig-master = (pkgs.zig.override({
+  #  llvmPackages = pkgs.llvmPackages_14;
+  # })).overrideAttrs(old: {
+  #  #src = /root/zig-master;
+  #  src = pkgs.fetchFromGitHub {
+  #    owner = "ziglang";
+  #    repo = "zig";
+  #    rev = "0d120fcb892d99417ee361adb79671c473f798ee";
+  #    sha256 = "10ynpd6mcxvin9ys93hbnb32yqp6fvpma1daknsfj22k770214j0";
+  #  };
+  #  cmakeFlags = [
+  #    "-DCMAKE_SKIP_BUILD_RPATH=ON"
+  #    "-DZIG_STATIC_ZLIB=ON"
+  #  ];
+  # });
+
+  binja = pkgs.stdenv.mkDerivation rec {
+    name = "binary-ninja";
+    buildInputs = with pkgs; [
+      autoPatchelfHook
+      makeWrapper
+      unzip
+      libGL
+      stdenv.cc.cc.lib
+      glib
+      fontconfig
+      xorg.libXi
+      xorg.libXrender
+      xorg.xcbutilwm
+      xorg.xcbutilimage
+      xorg.xcbutilkeysyms
+      xorg.xcbutilrenderutil
+      ncurses
+      qt6.qtdeclarative
+      qt6.qtbase
+      libxkbcommon
+      dbus
+    ];
+    src = pkgs.requireFile {
+      name = "BinaryNinja-personal.zip";
+      sha256 = "1fyc629vxnda6sap32nw5k3ikq1mjnaw6vzxgynj4hz86nf0xaik";
+      message = ''
+        Binary ninja not found!
+      '';
+    };
+
+    buildPhase = ":";
+    installPhase = ''
+      mkdir -p $out/bin
+      mkdir -p $out/opt
+      cp -r * $out/opt
+      chmod +x $out/opt/binaryninja
+      makeWrapper $out/opt/binaryninja \
+            $out/bin/binaryninja \
+            --prefix "QT_XKB_CONFIG_ROOT" ":" "${pkgs.xkeyboard_config}/share/X11/xkb"
+    '';
+  };
 
   dwm = import ./dwm {
     inherit pkgs st;
-    inherit (pkgs) stdenv xlibs;
+    inherit (pkgs) stdenv xorg;
     font_size = config.my_cfg.graphical.wm_font_size;
   };
 
   dwmstatus = import ./dwmstatus {
     inherit zig pkgs;
-    inherit (pkgs) stdenv xlibs;
+    inherit (pkgs) stdenv xorg;
     time_zone = config.time.timeZone;
     time_format = config.my_cfg.time_format;
     battery_path = config.my_cfg.battery_path;
@@ -38,7 +136,7 @@ in rec {
 
   dmenu = import ./dmenu {
     inherit pkgs;
-    inherit (pkgs) stdenv xlibs;
+    inherit (pkgs) stdenv xorg;
   };
 
   ida_env = import ./ida {
@@ -55,7 +153,7 @@ in rec {
     exec ${ida_env}/bin/ida ${ida_env}/opt/idapro/ida64 "$@"
   '';
 
-  pida_env = import ./ida {
+  pida_env = import ./ida/ida7.nix {
     inherit pkgs;
     inherit (config.my_cfg.pida) installer password;
     inherit (pkgs) stdenv;
@@ -71,7 +169,7 @@ in rec {
 
   st = import ./st {
     inherit pkgs;
-    inherit (pkgs) stdenv xlibs pkg-config ncurses;
+    inherit (pkgs) stdenv xorg pkg-config ncurses;
     font_size = config.my_cfg.graphical.terminal_font_size;
   };
 
@@ -88,6 +186,10 @@ in rec {
       patches = (old.patches or []) ++ [ ../patches/lutris/lutris-as-root.patch ];
     });
   });
+
+  xenia = import ./xenia {
+    inherit (pkgs) fetchFromGitHub gtk3 llvmPackages_9 lz4 pkg-config python3 SDL2 vulkan-headers vulkan-loader;
+  };
 
   # Browser based packages that require `--no-sandbox` to run as root
   discord = addNoSandbox "discord" pkgs.discord;
@@ -179,5 +281,9 @@ in rec {
     else
       file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;
     fi;
+  '';
+
+  git-pretty-log = pkgs.writeShellScriptBin "gpl" ''
+    ${pkgs.git}/bin/git log --color --pretty='format:%C(auto)%h %C(red)%ai %C(blue)%an %C(white)%s' | ${pkgs.most}/bin/most
   '';
 }
