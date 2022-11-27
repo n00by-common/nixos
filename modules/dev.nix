@@ -27,10 +27,6 @@
 
       my_pkgs.zig
 
-      (pkgs.writeShellScriptBin "zig-master" ''
-        ${my_pkgs.zig-master}/bin/zig "$@"
-      '')
-
       (pkgs.writeShellScriptBin "zig-soft-float" ''
         ${(pkgs.zig.override({
           llvmPackages = pkgs.llvmPackages_13;

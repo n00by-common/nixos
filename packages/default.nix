@@ -20,34 +20,7 @@ in rec {
     exec ${albion_env}/bin/albion $HOME/albion/data/Albion-Online "$@"
   '';
 
-  zig = import ./zig {
-    inherit pkgs;
-    inherit (pkgs) stdenv fetchurl;
-  };
-
-  # zig = (pkgs.zig.override({
-  #   llvmPackages = pkgs.llvmPackages_13;
-  # })).overrideAttrs(old: {
-  #   src = pkgs.fetchFromGitHub {
-  #     owner = "ziglang";
-  #     repo = "zig";
-  #     rev = "c0ae9647f9656ea47c49ffd64443b7da73aeffc7";
-  #     sha256 = "1w8jnf1ayhv2mlbnkdiy84jvjhq3w49d4j2bwghi86rxi9z5g69r";
-  #   };
-  # });
-
-  #zig-master = (pkgs.zig.override({
-  #  llvmPackages = pkgs.llvmPackages_13;
-  #})).overrideAttrs(old: {
-  #  src = pkgs.fetchFromGitHub {
-  #    owner = "ziglang";
-  #    repo = "zig";
-  #    rev = "ee651c3cd358f40f60db0bbcd82ffde99aed9b88";
-  #    sha256 = "14hdwmy41804v28xm1clb8zjdf66wsdc5003cfyryll0qqqnqq5f";
-  #  };
-  #});
-
-  zig-master = (pkgs.stdenv.mkDerivation rec{
+  zig = (pkgs.stdenv.mkDerivation rec{
     name = "zig-${version}";
     version = "0.10.0-dev.4541+e67c756b9";
     src = pkgs.fetchurl {
